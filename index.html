@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz cumple cariño</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#fff0e2;--bg2:#ffc9b5;--ink:#3a2340;--soft:#7a5a80;--card:#ffffffcc;--accent:#ff5d7d;--gold:#ffb347;--paper:#fffaf0;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#1d1533;--bg2:#3b1f4a;--ink:#fff3e6;--soft:#d9b9e0;--card:#ffffff14;--paper:#fff6e6;color-scheme:dark}}
+:root[data-theme="dark"]{--bg1:#1d1533;--bg2:#3b1f4a;--ink:#fff3e6;--soft:#d9b9e0;--card:#ffffff14;--paper:#fff6e6}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{margin:0;min-height:100%;font-family:'Fredoka',system-ui,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));background-attachment:fixed;overflow-x:hidden}
+#bg{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.fl{position:absolute;bottom:-40px;opacity:.5;animation:up linear forwards}
+@keyframes up{to{transform:translateY(-115vh) rotate(25deg)}}
+main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:20px 18px 40px;min-height:100vh;display:flex;flex-direction:column}
+#dots{display:flex;gap:8px;justify-content:center;margin:6px 0 18px}
+#dots i{width:10px;height:10px;border-radius:50%;background:var(--soft);opacity:.35;transition:.3s}
+#dots i.on{background:var(--accent);opacity:1;transform:scale(1.3)}
+.screen{display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+.screen.active{display:flex}
+h1{font-size:clamp(2rem,9vw,3rem);margin:0;line-height:1.1}
+h2{font-size:1.6rem;margin:0}
+p{margin:0;color:var(--soft);line-height:1.5}
+button{font:inherit;font-weight:600;color:#fff;background:var(--accent);border:0;border-radius:999px;padding:13px 28px;font-size:1.05rem;cursor:pointer;box-shadow:0 6px 0 #c93a5a;transition:transform .1s,box-shadow .1s}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #c93a5a}
+button:focus-visible,.card:focus-visible,.opt:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+button[hidden]{display:none}
+/* regalo */
+#gift{font-size:7rem;line-height:1;cursor:pointer;background:none;border:0;box-shadow:none;padding:0;animation:bob 1.6s ease-in-out infinite}
+#gift.open{animation:pop .7s forwards}
+@keyframes bob{50%{transform:translateY(-12px) rotate(-5deg)}}
+@keyframes pop{to{transform:scale(1.8) rotate(12deg);opacity:0}}
+/* pastel */
+#cake{position:relative;width:280px;height:190px;margin:44px auto 6px;touch-action:none;cursor:crosshair}
+.lay{position:absolute;border-radius:18px}
+.lay.b{left:0;bottom:0;width:280px;height:80px;background:#ff8fab;box-shadow:inset 0 -10px 0 #f0708f}
+.lay.t{left:20px;bottom:80px;width:240px;height:70px;background:#fff0e0;box-shadow:inset 0 14px 0 #ffc2d1}
+.can{position:absolute;width:10px;height:30px;border-radius:3px;background:repeating-linear-gradient(135deg,#7fd1ff 0 5px,#fff 5px 10px);animation:drop .35s ease-in;pointer-events:none}
+@keyframes drop{from{transform:translateY(-70px);opacity:0}}
+.can i{position:absolute;left:-2px;top:-22px;width:14px;height:20px;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;background:radial-gradient(#fff6b0 20%,#ffb347 70%);transform:scale(0);transform-origin:bottom;transition:transform .3s;filter:drop-shadow(0 0 8px #ffb347)}
+.can.on i{transform:scale(1);animation:fk .25s ease-in-out infinite alternate}
+.bw .can.on i{animation:fk .07s ease-in-out infinite alternate}
+.can.off i{transform:scale(0);animation:none}
+@keyframes fk{to{transform:scale(.85,1.1) rotate(7deg)}}
+#match{position:absolute;font-size:2.2rem;pointer-events:none;transform:translate(-50%,-75%);z-index:999}
+#plate{width:300px;height:12px;border-radius:50%;background:var(--soft);opacity:.4;margin:0 auto}
+/* atrapa */
+#cv{width:100%;max-width:340px;aspect-ratio:17/21;border-radius:24px;background:var(--card);touch-action:none;display:block}
+#hud{font-weight:600;font-size:1.2rem}
+/* simon */
+#pads{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:260px}
+.pad{aspect-ratio:1;border-radius:26px;border:0;box-shadow:none;opacity:.5;transition:.12s;padding:0}
+.pad:active{box-shadow:none;transform:none}
+.pad.lit{opacity:1;transform:scale(1.07);filter:brightness(1.25) drop-shadow(0 0 14px #fff8)}
+#sm,#pm{min-height:1.6em;color:var(--accent);font-weight:600}
+/* piñata */
+#pin{position:relative;width:100%;height:240px;border-radius:24px;background:var(--card);overflow:hidden;display:flex;justify-content:center}
+#rope{position:absolute;top:0;width:3px;height:60px;background:var(--soft)}
+#pbox{position:absolute;top:50px;transform-origin:50% -50px;font-size:7rem;line-height:1}
+#pbox.hit{animation:sw .5s ease-out}
+@keyframes sw{0%{transform:rotate(0)}25%{transform:rotate(-24deg)}60%{transform:rotate(14deg)}100%{transform:rotate(0)}}
+#pbox.gone{display:none}
+#meter{position:relative;width:100%;height:28px;border-radius:14px;background:var(--card);overflow:hidden}
+#zone{position:absolute;left:38%;width:24%;top:0;bottom:0;background:#6fdc8c}
+#mk{position:absolute;top:0;bottom:0;width:7px;background:var(--accent);border-radius:4px}
+/* carta */
+#env{font-size:6rem;background:none;border:0;box-shadow:none;padding:0;cursor:pointer;animation:bob 1.6s ease-in-out infinite}
+#letter{display:none;width:100%;background:var(--paper);color:#000;border-radius:6px;padding:26px 22px;text-align:left;box-shadow:0 14px 40px #0004;transform-origin:top;animation:unfold .9s ease-out;background-image:repeating-linear-gradient(transparent,transparent 33px,#f0d9c0 34px)}
+#letter.show{display:block}
+@keyframes unfold{from{transform:scaleY(0);opacity:0}}
+#txt{color:#000;font-family:'Caveat','Segoe Script',cursive;font-size:1.55rem;line-height:34px;white-space:pre-wrap;margin:0}
+.conf{position:fixed;top:-30px;z-index:5;pointer-events:none;animation:cf linear forwards}
+@keyframes cf{to{transform:translateY(112vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){#gift,#env{animation:none}.fl{display:none}}
+</style>
+</head>
+<body>
+<div id="bg" aria-hidden="true"></div>
+<main>
+<div id="dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<section class="screen active" id="s0">
+  <h1 id="t0"></h1>
+  <p>Te hice unos jueguitooosss y hay una sorpresita al final:3 Toca el regalo apúrate!!!</p>
+  <button id="gift" aria-label="Abrir regalo">🎁</button>
+</section>
+
+<section class="screen" id="s1">
+  <h2>El pastel de los 19</h2>
+  <p id="cp">Toca la parte de arriba del pastel para poner velas:D. Colócalas donde quieras!!</p>
+  <div id="cake"><div class="lay b"></div><div class="lay t"></div><span id="match" hidden>🔥</span></div>
+  <div id="plate"></div>
+  <button id="blow" hidden>Mantén para soplar 💨</button>
+  <button id="n1" hidden>Siguiente</button>
+</section>
+
+<section class="screen" id="s2">
+  <h2>ATRAPA LOS REGALOSS</h2>
+  <p>Mueve la canasta con el dedo/mouse. Junta 19 regalos y NO TOQUES las arañas D:</p>
+  <div id="hud"></div>
+  <canvas id="cv" width="340" height="420"></canvas>
+  <button id="n2" hidden>Siguiente</button>
+</section>
+
+<section class="screen" id="s3">
+  <h2>SIMONCITO</h2>
+  <p>Mira la melodía y repítela. Son 67 rondas (mentira, 7[deberían ser 19]).</p>
+  <div id="sr" style="font-weight:600"></div>
+  <div id="pads"></div>
+  <div id="sm"></div>
+  <button id="sstart">Empezar</button>
+  <button id="n3" hidden>Siguiente</button>
+</section>
+
+<section class="screen" id="s4">
+  <h2>ROMPE ESTA PIÑATA!</h2>
+  <p>Toca ¡Golpear! cuando la barra pase por la zona verde. Necesitas 6 golpesotes.</p>
+  <div id="pin"><div id="rope"></div><div id="pbox">🪅</div></div>
+  <div id="meter"><div id="zone"></div><div id="mk"></div></div>
+  <button id="hit">¡Golpear!</button>
+  <div id="pm"></div>
+  <button id="n4" hidden>TOCA AQUÍ, TE TENGO UN REGALO:3</button>
+</section>
+
+<section class="screen" id="s5">
+  <h2 id="h4">Lo lograste. Esto es para ti mi vida hermosaaa.</h2>
+  <button id="env" aria-label="Abrir carta">💌</button>
+  <div id="letter"><p id="txt"></p></div>
+</section>
+</main>
+
+<script>
+
+const C={
+  nombre:"Amor",
+  carta:"Feliz cumpleaños, cariño mío.\n\nQuería que comenzaras tu cumple de una manera divertida, así que te hice esto<3 Espero que te haya gustado mucho a pesar de ser cortito.\n\nGracias por hacerme reír TOODO EL TIEMPO, por cuidarme y por ser mi lugar favorito. Contigo hasta lo normal se siente especial (y eso que lo normal es mega aburrido), pues contigo ningún día JAMÁS se ha sentido aburrido:3.\n\nEspero que este año sea muy incríble para ti y llegue con absolutamente todo lo que te mereces (el mundo entero jejeje), y que yo esté ahí para verlo, porque sinceramente lo que más quiero es acompañarte en cada una de las etapas de tu vida que te esperan y que no las afrontes tú solito, pues al menos siempre me vas a tener a mí en cualquier circunstancia:3. No sabes lo mucho que te amo y lo feliz que me hace estar compartiendo este año de vida a tu lado, y más como tu novia!!! Espero que te la pases maravilloso hoy, absolutamente te mereces disfrutar tu día especial<3\n\nTe amo muchísimo, mi rabanito JSJSJS.\n\nCon todo el amor,\nTu novia ♥️"
+};
+
+const $=s=>document.querySelector(s);
+let cur=0;
+function go(n){
+  document.querySelectorAll('.screen').forEach((e,i)=>e.classList.toggle('active',i===n));
+  document.querySelectorAll('#dots i').forEach((e,i)=>e.classList.toggle('on',i<=n));
+  cur=n;window.scrollTo(0,0);
+  if(n===2)startCatch();if(n===4)startPin();
+}
+$('#t0').textContent='Feliz cumple, '+C.nombre+' 🎉';
+go(0);
+
+/* fondo flotante */
+const em=['♥️','✨','🎈','⭐','💫'];
+setInterval(()=>{
+  if(document.hidden)return;
+  const d=document.createElement('div');d.className='fl';d.textContent=em[Math.random()*em.length|0];
+  d.style.left=Math.random()*100+'vw';d.style.fontSize=(14+Math.random()*22)+'px';
+  d.style.animationDuration=(7+Math.random()*6)+'s';
+  $('#bg').appendChild(d);setTimeout(()=>d.remove(),14000);
+},700);
+
+function confetti(n=60){
+  const c=['🎉','✨','♥️','🎊','⭐','🎈'];
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div');d.className='conf';d.textContent=c[i%c.length];
+    d.style.left=Math.random()*100+'vw';d.style.fontSize=(16+Math.random()*20)+'px';
+    d.style.animationDuration=(2.5+Math.random()*2.5)+'s';d.style.animationDelay=Math.random()*1.2+'s';
+    document.body.appendChild(d);setTimeout(()=>d.remove(),7000);
+  }
+}
+
+/* 0 · regalo */
+$('#gift').onclick=e=>{
+  e.currentTarget.classList.add('open');confetti(50);
+  setTimeout(()=>go(1),900);
+};
+
+/* 1 · pastel */
+let nC=0,stage=0,cans=[],lit=0,pw=0,bt=null;
+const cake=$('#cake'),order=[...Array(19).keys()].sort(()=>Math.random()-.5);
+cake.onpointerdown=e=>{
+  if(stage!==0||nC>=19)return;
+  const r=cake.getBoundingClientRect();
+  const x=Math.min(Math.max(e.clientX-r.left,34),246),b=Math.min(Math.max(r.bottom-e.clientY,98),148);
+  const c=document.createElement('div');c.className='can';
+  c.style.left=(x-5)+'px';c.style.bottom=b+'px';c.style.zIndex=300-Math.round(b);c.innerHTML='<i></i>';
+  cake.appendChild(c);cans.push(c);nC++;
+  $('#cp').textContent=nC<19?'Velas: '+nC+' de 19':'¡Las 19! Ahora enciéndelas: pasa el fósforo sobre cada vela.';
+  if(nC===19){stage=1;$('#match').hidden=false}
+};
+cake.onpointermove=e=>{
+  if(stage!==1)return;
+  const r=cake.getBoundingClientRect(),m=$('#match');
+  m.style.left=(e.clientX-r.left)+'px';m.style.top=(e.clientY-r.top)+'px';
+  cans.forEach(c=>{
+    if(c.classList.contains('on'))return;
+    const q=c.getBoundingClientRect();
+    if(Math.hypot(e.clientX-(q.left+5),e.clientY-q.top)<26){c.classList.add('on');lit++}
+  });
+  if(lit>=19){stage=2;m.hidden=true;$('#blow').hidden=false;$('#cp').textContent='Pide un deseo y sopla fuerte. Mantén presionado.'}
+};
+const bl=$('#blow');
+const blowStart=()=>{
+  if(stage!==2||bt)return;cake.classList.add('bw');
+  bt=setInterval(()=>{
+    pw+=.5;const k=Math.min(19,Math.floor(pw));
+    for(let i=0;i<k;i++){const c=cans[order[i]];c.classList.remove('on');c.classList.add('off')}
+    if(k>=19){blowEnd();stage=3;bl.hidden=true;confetti(90);$('#cp').textContent='¡Feliz cumple! 🎂';$('#n1').hidden=false}
+  },100);
+};
+const blowEnd=()=>{clearInterval(bt);bt=null;cake.classList.remove('bw')};
+bl.onpointerdown=blowStart;
+['pointerup','pointerleave','pointercancel'].forEach(t=>bl.addEventListener(t,blowEnd));
+$('#n1').onclick=()=>go(2);
+
+/* 2 · atrapa los regalos */
+let cv,cx,px=170,items=[],sc=0,lv=3,tick=0,run=false;
+const hud=()=>{$('#hud').textContent='🎁 '+sc+' / 19    '+'❤️'.repeat(lv)};
+function startCatch(){
+  cv=$('#cv');cx=cv.getContext('2d');sc=0;lv=3;items=[];tick=0;px=170;run=true;
+  $('#n2').hidden=true;hud();loop();
+}
+const mv=e=>{const r=cv.getBoundingClientRect();px=Math.min(320,Math.max(20,(e.clientX-r.left)/r.width*340))};
+$('#cv').onpointermove=mv;$('#cv').onpointerdown=mv;
+addEventListener('keydown',e=>{if(cur!==2)return;if(e.key==='ArrowLeft')px=Math.max(20,px-24);if(e.key==='ArrowRight')px=Math.min(320,px+24)});
+function loop(){
+  if(!run||cur!==2)return;
+  cx.clearRect(0,0,340,420);tick++;
+  if(tick%Math.max(20,48-sc*1.3|0)===0){
+    const bad=Math.random()<.28;
+    items.push({x:22+Math.random()*296,y:-20,bad,e:bad?'🕷️':['🎁','🍰','🍬','🎈','🧁'][Math.random()*5|0]});
+  }
+  cx.textAlign='center';cx.font='34px serif';
+  items.forEach(it=>{
+    it.y+=2.2+sc*.12;cx.fillText(it.e,it.x,it.y);
+    if(it.y>350&&it.y<405&&Math.abs(it.x-px)<40){it.d=1;if(it.bad)lv--;else sc++;hud()}
+    else if(it.y>440)it.d=1;
+  });
+  items=items.filter(i=>!i.d);
+  cx.font='60px serif';cx.fillText('🧺',px,412);
+  if(lv<=0){run=false;$('#hud').textContent='¡Las arañas ganaron! Otra vez…';setTimeout(startCatch,1100);return}
+  if(sc>=19){run=false;confetti(80);$('#hud').textContent='¡19 regalos! 🎁';$('#n2').hidden=false;return}
+  requestAnimationFrame(loop);
+}
+$('#n2').onclick=()=>go(3);
+
+/* 3 · simón */
+const fq=[262,330,392,523],col=['#ff5d7d','#ffb347','#5fd38d','#5aa9ff'];
+let ac=null,seq=[],step=0,busy=true;
+function tone(f){try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.25,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.35);o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+.35)}catch(e){}}
+function flash(i){const b=$('#pads').children[i];b.classList.add('lit');tone(fq[i]);setTimeout(()=>b.classList.remove('lit'),300)}
+function play(){
+  busy=true;step=0;$('#sm').textContent='Mira y escucha…';
+  seq.forEach((v,i)=>setTimeout(()=>flash(v),700+i*650));
+  setTimeout(()=>{busy=false;$('#sm').textContent='Tu turno'},700+seq.length*650);
+}
+function nextRound(){seq.push(Math.random()*4|0);$('#sr').textContent='Ronda '+seq.length+' de 7';play()}
+col.forEach((c,i)=>{
+  const b=document.createElement('button');b.className='pad';b.style.background=c;b.setAttribute('aria-label','Botón '+(i+1));
+  b.onclick=()=>{
+    if(busy)return;flash(i);
+    if(i!==seq[step]){busy=true;$('#sm').textContent='Uy, mira otra vez 👀';setTimeout(play,1200);return}
+    if(++step===seq.length){
+      busy=true;
+      if(seq.length>=7){confetti(80);$('#sm').textContent='¡Oído perfecto! 🎶';$('#n3').hidden=false}
+      else{$('#sm').textContent='¡Bien!';setTimeout(nextRound,900)}
+    }
+  };
+  $('#pads').appendChild(b);
+});
+$('#sstart').onclick=e=>{e.currentTarget.hidden=true;nextRound()};
+$('#n3').onclick=()=>go(4);
+
+/* 4 · piñata */
+let hits=0,mp=0,md=1,sp=1.5,mt=null;
+function startPin(){
+  clearInterval(mt);
+  mt=setInterval(()=>{
+    if(cur!==4){clearInterval(mt);return}
+    mp+=md*sp;if(mp>=97){mp=97;md=-1}if(mp<=0){mp=0;md=1}
+    $('#mk').style.left=mp+'%';
+  },16);
+}
+$('#hit').onclick=()=>{
+  if(hits>=6)return;
+  if(Math.abs(mp-50)>12){$('#pm').textContent='¡Casi! Espera la zona verde.';return}
+  hits++;sp+=.5;
+  const p=$('#pbox');p.classList.remove('hit');void p.offsetWidth;p.classList.add('hit');
+  $('#pm').textContent='¡Buen golpe! '+hits+' de 6';
+  if(hits>=6){
+    clearInterval(mt);$('#hit').hidden=true;
+    setTimeout(()=>{
+      p.classList.add('gone');$('#rope').style.display='none';
+      const c=['🍬','🍭','🧁','🍩','🍮','🍪'];
+      for(let i=0;i<80;i++){
+        const d=document.createElement('div');d.className='conf';d.textContent=c[i%c.length];
+        d.style.left=(30+Math.random()*40)+'vw';d.style.fontSize=(18+Math.random()*18)+'px';
+        d.style.animationDuration=(2+Math.random()*2.5)+'s';d.style.animationDelay=Math.random()*.6+'s';
+        document.body.appendChild(d);setTimeout(()=>d.remove(),6000);
+      }
+      $('#pm').textContent='¡Se rompió JEJEJE OMGGG! 🍬';$('#n4').hidden=false;
+    },450);
+  }
+};
+$('#n4').onclick=()=>go(5);
+
+/* 4 · carta */
+$('#env').onclick=()=>{
+  $('#env').style.display='none';$('#h4').textContent='Para ti ♥️';
+  const L=$('#letter');L.classList.add('show');confetti(70);
+  const t=C.carta;let i=0;const el=$('#txt');
+  const iv=setInterval(()=>{el.textContent=t.slice(0,++i);if(i>=t.length){clearInterval(iv);confetti(40)}},38);
+  L.onclick=()=>{clearInterval(iv);el.textContent=t};
+};
+</script>
+</body>
+</html>
